@@ -42,16 +42,25 @@ jest.mock('../hooks/useQuiz', () => ({
 }));
 
 describe('Quiz', () => {
-  test('renders start screen', () => {
+  test('renders start screen with name input', () => {
     render(<Quiz />);
     
-    expect(screen.getByText('🎯 Web3Bridge Quiz')).toBeInTheDocument();
-    expect(screen.getByText('Start Quiz')).toBeInTheDocument();
+    expect(screen.getByText('🎯 Web3Bridge Quiz')).toBeTruthy();
+    expect(screen.getByText('Enter your name to start:')).toBeTruthy();
+    expect(screen.getByPlaceholderText('Your name')).toBeTruthy();
+    expect(screen.getByText('Start Quiz')).toBeTruthy();
   });
 
   test('renders leaderboard on start screen', () => {
     render(<Quiz />);
     
-    expect(screen.getByText('🏆 Leaderboard')).toBeInTheDocument();
+    expect(screen.getByText('🏆 Leaderboard')).toBeTruthy();
+  });
+
+  test('start button is disabled when name is empty', () => {
+    render(<Quiz />);
+    
+    const startButton = screen.getByText('Start Quiz') as HTMLButtonElement;
+    expect(startButton.disabled).toBe(true);
   });
 });

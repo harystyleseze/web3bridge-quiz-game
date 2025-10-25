@@ -21,13 +21,24 @@ export const Quiz: React.FC = () => {
   } = useQuiz();
 
   const [username, setUsername] = useState('');
+  const [usernameInput, setUsernameInput] = useState('');
 
   useEffect(() => {
     const userProfile = storage.getUserProfile();
     if (userProfile?.username) {
       setUsername(userProfile.username);
+      setUsernameInput(userProfile.username);
     }
   }, []);
+
+  const handleStartQuiz = () => {
+    if (usernameInput.trim()) {
+      const trimmedUsername = usernameInput.trim();
+      setUsername(trimmedUsername);
+      storage.saveUserProfile(trimmedUsername);
+      startQuiz();
+    }
+  };
 
   if (state.gameStatus === 'idle') {
     return (
@@ -43,16 +54,29 @@ export const Quiz: React.FC = () => {
             {questions.length} questions • {TIME_PER_QUESTION}s per question
           </p>
 
-          {username && (
-            <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-              <p className="text-green-800">
-                Welcome back, <strong>{username}</strong>!
-              </p>
-            </div>
-          )}
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-700 mb-2 text-left">
+              Enter your name to start:
+            </label>
+            <input
+              type="text"
+              value={usernameInput}
+              onChange={(e) => setUsernameInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && usernameInput.trim()) {
+                  handleStartQuiz();
+                }
+              }}
+              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="Your name"
+              maxLength={20}
+              autoFocus
+            />
+          </div>
 
           <Button
-            onClick={startQuiz}
+            onClick={handleStartQuiz}
+            disabled={!usernameInput.trim()}
             className="w-full py-4 text-lg"
           >
             Start Quiz
@@ -97,7 +121,8 @@ export const Quiz: React.FC = () => {
           <Leaderboard
             currentScore={state.score}
             totalQuestions={questions.length}
-            onPlayAgain={startQuiz}
+            currentUsername={username}
+            onPlayAgain={handleStartQuiz}
           />
         </div>
       </div>
@@ -120,9 +145,16 @@ export const Quiz: React.FC = () => {
         {/* Header */}
         <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
           <div className="flex justify-between items-center mb-4">
-            <h1 className="text-2xl font-bold text-gray-800">
-              Web3Bridge Quiz
-            </h1>
+            <div>
+              <h1 className="text-2xl font-bold text-gray-800">
+                Web3Bridge Quiz
+              </h1>
+              {username && (
+                <p className="text-sm text-gray-600 mt-1">
+                  Player: <span className="font-medium text-blue-600">{username}</span>
+                </p>
+              )}
+            </div>
             <div className="text-right">
               <div className="text-lg font-semibold text-gray-800">
                 Score: <span className="text-blue-600">{state.score}</span>

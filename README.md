@@ -319,7 +319,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 👨‍💻 Author
 
-**Harystyles**
+**Harrison Eze**
 - GitHub: [@harystyleseze](https://github.com/harystyleseze)
 - Repository: [web3bridge-quiz-game](https://github.com/harystyleseze/web3bridge-quiz-game)
 

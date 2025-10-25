@@ -1,3 +1,5 @@
+import type { LeaderboardEntry } from '../types/quiz';
+
 const STORAGE_KEYS = {
   LEADERBOARD: 'quiz_leaderboard',
   USER_PROFILE: 'quiz_user_profile',

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Question, QuizState } from '../types/quiz';
+import type { Question, QuizState } from '../types/quiz';
 import questionsData from '../data/questions.json';
 
 const TIME_PER_QUESTION = 30; // seconds
@@ -19,7 +19,7 @@ export const useQuiz = () => {
   // Load questions
   useEffect(() => {
     try {
-      setQuestions(questionsData);
+      setQuestions(questionsData as Question[]);
     } catch (error) {
       console.error('Failed to load questions:', error);
     }

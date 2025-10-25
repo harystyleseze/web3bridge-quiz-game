@@ -1,5 +1,5 @@
 import React from 'react';
-import { Question as QuestionType } from '../../types/quiz';
+import type { Question as QuestionType } from '../../types/quiz';
 
 interface QuestionProps {
   question: QuestionType;

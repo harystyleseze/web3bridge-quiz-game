@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { LeaderboardEntry } from '../../types/quiz';
+import type { LeaderboardEntry } from '../../types/quiz';
 import { storage } from '../../utils/storage';
 
 interface LeaderboardProps {
